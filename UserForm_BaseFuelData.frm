@@ -14,6 +14,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+
 '
 '
 '
@@ -58,7 +59,7 @@ Public Function DownloadToTemp(ByVal fileUrl As String, ByVal localFileName As S
     Set stm = CreateObject("ADODB.Stream")
     stm.Type = 1 'binary
     stm.Open
-    stm.Write http.ResponseBody
+    stm.Write http.responseBody
     stm.SaveToFile localPath, 2 'overwrite
     stm.Close
 

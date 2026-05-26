@@ -10,7 +10,7 @@ Attribute VB_Name = "Module_CAD_Final"
 Sub Final_CAD()
 ' Allows the user to override the calculation of the traffic maintenance and make it equal to 1
     ActiveSheet.Select
-    ActiveSheet.Unprotect
+    ActiveSheet.Unprotect Password:="roadway123"
     Application.ScreenUpdating = False
  ''WARNING Message
     If MsgBox("Do you want to create the final INVOICE for this project? This action is ONLY used to create the last invoice. DO NOT use this function unless this is your last invoice.", vbYesNo, "Save changes") = vbYes Then
@@ -67,7 +67,7 @@ Sub Final_CAD()
     ActiveCell.FormulaR1C1 = "1"
     
     ActiveSheet.Select
-    ActiveSheet.Protect
+    ActiveSheet.Protect Password:="roadway123"
     Application.ScreenUpdating = True
     Range("G7").Select
     End If

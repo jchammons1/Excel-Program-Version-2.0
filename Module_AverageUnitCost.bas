@@ -146,9 +146,9 @@ strConn = _
     Sheets("AvgUnitCost").Select
     Sheets("AvgUnitCost").Range("A2").Select
         
-        Dim LastRow As Long, i As Long                          ' This sets up to only look at the last populated row and copy it over to SQL
-        LastRow = Cells(Rows.Count, "A").End(xlUp).row
-        For i = 2 To LastRow
+        Dim lastRow As Long, i As Long                          ' This sets up to only look at the last populated row and copy it over to SQL
+        lastRow = Cells(Rows.Count, "A").End(xlUp).row
+        For i = 2 To lastRow
 
 
         strSQL = _
@@ -183,7 +183,7 @@ strConn = _
     Sheets("AvgUnitCost").Protect
     Sheets("AvgUnitCost").Visible = False
     Application.ScreenUpdating = True
-    MsgBox ("You have successfully uploaded " & LastRow - 1 & " records to the database. Ensure this matches the Excel file")
+    MsgBox ("You have successfully uploaded " & lastRow - 1 & " records to the database. Ensure this matches the Excel file")
     
     End If
     

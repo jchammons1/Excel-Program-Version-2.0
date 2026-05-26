@@ -97,14 +97,41 @@ Dim RowType As Range
                 ActiveCell.Offset(1, 0).Range("A1").Select
                 Call OrganizePayItems_902NP
                 Database.Range("$A$1:$CS$999").AutoFilter
+                    Form902.Select
+                    ActiveCell.Offset(1, 0).Range("A1").Select          ' Participating block
+                    ActiveCell.FormulaR1C1 = "SUBTOTAL PARTICIPATING AMOUNT"
+                    ActiveCell.Select
+                    Selection.Font.Bold = True
+                    ActiveCell.Offset(0, 0).Range("A1:E1").Select
+                    Selection.Merge
+                    Selection.HorizontalAlignment = xlRight
+                    
+                    ActiveCell.Offset(0, 1).Range("A1").Select
+                    ActiveCell.Offset(0, 0).Range("A1:B1").Select
+                    Selection.Merge
+                        Call Format_902_boxes
+                     ActiveCell.Offset(1, -5).Range("A1").Select          ' Non-Participating block
+                        ActiveCell.FormulaR1C1 = "SUBTOTAL NON-PARTICIPATING AMOUNT"
+                    ActiveCell.Select
+                    Selection.Font.Bold = True
+                    ActiveCell.Offset(0, 0).Range("A1:E1").Select
+                    Selection.Merge
+                    Selection.HorizontalAlignment = xlRight
+                    
+                    ActiveCell.Offset(0, 1).Range("A1").Select
+                    ActiveCell.Offset(0, 0).Range("A1:B1").Select
+                    Selection.Merge
+                        Call Format_902_boxes
+                    ActiveCell.Offset(1, -5).Range("A1").Select
                 Else
                 Form902.Select
                 Database.Range("$A$1:$CS$999").AutoFilter
+                Form902.Select
             End If
             
-            
+ 
     Form902.Select
-    ActiveCell.Offset(4, 0).Range("A1").Select
+    ActiveCell.Offset(1, 0).Range("A1").Select           ' Total Bid Amount block
     ActiveCell.FormulaR1C1 = "TOTAL BID AMOUNT"
     ActiveCell.Select
     Selection.Font.Bold = True
@@ -115,46 +142,19 @@ Dim RowType As Range
     ActiveCell.Offset(0, 1).Range("A1").Select
     ActiveCell.Offset(0, 0).Range("A1:B1").Select
     Selection.Merge
-    
-    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
-    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
-    With Selection.Borders(xlEdgeLeft)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeTop)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeBottom)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeRight)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    Selection.Borders(xlInsideVertical).LineStyle = xlNone
-    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+        Call Format_902_boxes
+
     
 'Do Loop to format the columns
- Call Format_902
+    Call Format_902
    
 'Setting the print area to find the row with "TOTAL BID AMOUNT" so that the page prints to the last row
       Dim ws As Worksheet
-      Dim LastRow As Long
+      Dim lastRow As Long
     
       Set ws = Form902
-      LastRow = ws.Cells.Find("TOTAL BID AMOUNT", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
-      ws.PageSetup.PrintArea = ws.Range("A1:G" & LastRow).Address
+      lastRow = ws.Cells.Find("TOTAL BID AMOUNT", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
+      ws.PageSetup.PrintArea = ws.Range("A1:G" & lastRow).Address
     
 ' Remove filters from the database.  The pay item form will not add pay items if this sheet filters are not removed'
     Database.Select

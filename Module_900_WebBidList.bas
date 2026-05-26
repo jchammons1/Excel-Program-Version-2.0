@@ -42,10 +42,10 @@ Option Explicit
  
 'Setting the print area to find the row with "TRANSFER FUNDS TO THE PROJECT'S ENGINEERING FUND" so that the page prints to the last row
   Dim ws As Worksheet
-  Dim LastRow As Long
+  Dim lastRow As Long
   Set ws = WEBBIDLIST
-    LastRow = ws.Cells.Find("***THE_END***", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
-    ws.PageSetup.PrintArea = ws.Range("A1:I" & LastRow).Address
+    lastRow = ws.Cells.Find("***THE_END***", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
+    ws.PageSetup.PrintArea = ws.Range("A1:I" & lastRow).Address
 
 'Protecting and finishing up
     WEBBIDLIST.Select
@@ -322,10 +322,10 @@ End Sub
  
 'Setting the print area to find the row with "The End" so that the page prints to the last row
   Dim ws As Worksheet
-  Dim LastRow As Long
+  Dim lastRow As Long
   Set ws = Form900
-    LastRow = ws.Cells.Find("***THE_END***", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
-    ws.PageSetup.PrintArea = ws.Range("A1:I" & LastRow).Address
+    lastRow = ws.Cells.Find("***THE_END***", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
+    ws.PageSetup.PrintArea = ws.Range("A1:I" & lastRow).Address
 
 'Protecting and finishing up
     PAYITEMTYPE.Visible = False
@@ -675,10 +675,10 @@ End Sub
  
 'Setting the print area to find the row with "The End" so that the page prints to the last row
   Dim ws As Worksheet
-  Dim LastRow As Long
+  Dim lastRow As Long
   Set ws = Form900
-    LastRow = ws.Cells.Find("***THE_END***", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
-    ws.PageSetup.PrintArea = ws.Range("A1:I" & LastRow).Address
+    lastRow = ws.Cells.Find("***THE_END***", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row      ' find the last row with formatting, to be included in print range
+    ws.PageSetup.PrintArea = ws.Range("A1:I" & lastRow).Address
 
 'Protecting and finishing up
     PAYITEMTYPE.Visible = False
