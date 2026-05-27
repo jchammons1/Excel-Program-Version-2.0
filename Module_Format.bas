@@ -1,5 +1,4 @@
 Attribute VB_Name = "Module_Format"
-'' Test text 5-26-26
     Public Function PayItemSelectedRegion() As Range
         Database.Unprotect
         Set PayItemSelectedRegion = Database.Range("A2").CurrentRegion
