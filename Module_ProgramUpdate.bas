@@ -1,10 +1,10 @@
 Attribute VB_Name = "Module_ProgramUpdate"
-Attribute VB_Name = "Module_ProgramUpdate"
 ''**************************************************************
 ''Variable for this module  ************************************
 ''**************************************************************
     
 ' Determine files needed
+' Test 11:55 am on 5.27.26
 Dim baseURL As String
 Dim files As Variant
 
