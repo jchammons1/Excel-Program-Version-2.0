@@ -1,4 +1,26 @@
 Attribute VB_Name = "Module_ProgramUpdate"
+Attribute VB_Name = "Module_ProgramUpdate"
+''**************************************************************
+''Variable for this module  ************************************
+''**************************************************************
+    
+' Determine files needed
+Dim baseURL As String
+Dim files As Variant
+
+' Create download files needed
+Dim fullURL As String
+Dim localPath As String
+
+' Create temp folder
+Dim tempfolder As String
+Dim file As String
+
+' Replace files
+Dim fileName As String
+Dim moduleName As String
+
+
 
 ''
 '' This function will get the files from GitHub
@@ -14,8 +36,8 @@ Function DownloadFile(url As String, savePath As String)
 
     If http.Status = 200 Then
         Set stream = CreateObject("ADODB.Stream")
-        stream.Open
         stream.Type = 1
+        stream.Open
         stream.Write http.responseBody
         stream.SaveToFile savePath, 2
         stream.Close
@@ -39,11 +61,10 @@ End Sub
 
 
 Sub Determine_Files_Needed()
-    Dim baseURL As String
-    baseURL = "https://github.com/jchammons1/Excel-Program-Version-2.0/tree/main"
     
-    Dim files As Variant
-    
+    baseURL = "https://raw.githubusercontent.com/jchammons1/Excel-Program-Version-2.0/main/"
+    ''  "Module_ProgramUpdate.bas" cannot be included because this is the code that is running to replace the files
+    ''  It will produce Module_ProgramUpdate1.bas
     files = Array( _
         "Module_900_WebBidList.bas", "Module_902.bas", "Module_AverageUnitCost.bas", _
         "Module_BIDTAB.bas", "Module_CAD.bas", "Module_CAD_Calculate.bas", _
@@ -53,18 +74,13 @@ Sub Determine_Files_Needed()
         "Module_Format.bas", "Module_FuelCalculations.bas", "Module_GreenCover.bas", "Module_ImageHeader.bas", _
         "Module_LettingResults.bas", "Module_ListBox.bas", "Module_MaterialReport.bas", _
         "Module_MoblizationTraffic.bas", "Module_Music.bas", "Module_Preparation.bas", "Module_PrintArea.bas", _
-        "Module_ProcessPayItem.bas", "Module_ProgramUpdate.bas", "Module_Sort.bas", _
-        "UserForm_BaseFuelData.frm", "UserForm_BidDatePicker.frm", "UserForm_CAD_Signature.frm", _
-        "UserForm_DASHBOARD.frm", "UserForm_DocumentHeading.frm", "UserForm_EditPayItem.frm", _
-        "UserForm_EditSuppListBox.frm", "UserForm_EditSuppTypes.frm", "UserForm_EditTypeListBox.frm", _
-        "UserForm_EditTypes.frm", "UserForm_EstimateDate.frm", "UserForm_LettingResults.frm", "UserForm_MonthlyFuelData.frm", _
-        "UserForm_BaseFuelData.frx", "UserForm_BidDatePicker.frx", "UserForm_CAD_Signature.frx", _
-        "UserForm_DASHBOARD.frx", "UserForm_DocumentHeading.frx", "UserForm_EditPayItem.frx", _
-        "UserForm_EditSuppListBox.frx", "UserForm_EditSuppTypes.frx", "UserForm_EditTypeListBox.frx", _
-        "UserForm_EditTypes.frx", "UserForm_EstimateDate.frx", "UserForm_LettingResults.frx", "UserForm_MonthlyFuelData.frx" _
+        "Module_ProcessPayItem.bas", "Module_Sort.bas", _
+        "UserForm_BaseFuelData.zip", "UserForm_BidDatePicker.zip", "UserForm_CAD_Signature.zip", _
+        "UserForm_DASHBOARD.zip", "UserForm_DocumentHeading.zip", "UserForm_EditPayItem.zip", _
+        "UserForm_EditSuppListBox.zip", "UserForm_EditSuppTypes.zip", "UserForm_EditTypeListBox.zip", _
+        "UserForm_EditTypes.zip", "UserForm_EstimateDate.zip", "UserForm_LettingResults.zip", "UserForm_MonthlyFuelData.zip" _
     )
 End Sub
-
 
 
 ''
@@ -72,9 +88,6 @@ End Sub
 ''
 Sub Download_Files_Needed()
     Dim i As Long
-    Dim fullURL As String
-    Dim localPath As String
-    
     For i = LBound(files) To UBound(files)
     
         fullURL = baseURL & files(i)
@@ -86,34 +99,61 @@ Sub Download_Files_Needed()
 End Sub
 
 
-
-
 ''
 '' Replace modules and user forms
 ''
 Sub Replace_Files()
-    Dim fileName As String
-    Dim moduleName As String
+    Dim i As Long
+    Dim filepath As String
     
     For i = LBound(files) To UBound(files)
     
         fileName = files(i)
     
         ' Only import .bas or .frm files
-        If Right(fileName, 4) = ".bas" Or Right(fileName, 4) = ".frm" Or Right(fileName, 4) = ".frx" Then
+    If Right(fileName, 4) = ".bas" Then
     
-            moduleName = Left(fileName, Len(fileName) - 4)
+        ' --- existing logic for modules ---
+        filepath = tempfolder & fileName
     
-            ' Remove existing
-            On Error Resume Next
-            ActiveWorkbook.VBProject.VBComponents.Remove _
-                ActiveWorkbook.VBProject.VBComponents(moduleName)
-            On Error GoTo 0
+        On Error Resume Next
+        ActiveWorkbook.VBProject.VBComponents.Remove _
+            ActiveWorkbook.VBProject.VBComponents(Left(fileName, Len(fileName) - 4))
+        On Error GoTo 0
     
-            ' Import new
-            ActiveWorkbook.VBProject.VBComponents.Import tempfolder & fileName
+        ActiveWorkbook.VBProject.VBComponents.Import filepath
     
-        End If
+    ElseIf Right(fileName, 4) = ".zip" Then
+
+    ' --- NEW LOGIC FOR USERFORM ZIP ---
+    
+    Dim zipPath As String
+    Dim formName As String
+    
+    zipPath = tempfolder & fileName
+    formName = Left(fileName, Len(fileName) - 4)
+
+    Debug.Print "ZIP PATH:", zipPath
+    Debug.Print "EXISTS?", Dir(zipPath)
+    
+    DoEvents
+    Application.Wait Now + TimeValue("0:00:01")
+
+
+    ' 1. Unzip
+    Call UnzipFile(zipPath, tempfolder)
+
+    ' 2. Remove existing form
+    On Error Resume Next
+    ActiveWorkbook.VBProject.VBComponents.Remove _
+        ActiveWorkbook.VBProject.VBComponents(formName)
+    On Error GoTo 0
+
+    ' 3. Import the .frm (FRX will load automatically)
+    ActiveWorkbook.VBProject.VBComponents.Import _
+        tempfolder & formName & ".frm"
+
+End If
     
     Next i
 End Sub
@@ -124,8 +164,6 @@ End Sub
 '' Creates temp folder on the users computer.  This is needed in order to have a temporary location to store the files before replacing the existing modules and user forms
 ''
 Sub Create_TempFolder()
-    Dim tempfolder As String
-    Dim file As String
     
     tempfolder = Environ("TEMP") & "\OSARC_Update\"
     
@@ -142,41 +180,20 @@ Sub Create_TempFolder()
     End If
 End Sub
 
+Sub UnzipFile(zipPath As String, extractTo As String)
 
+    Dim command As String
+    Dim wsh As Object
 
-''
-'' Remove VBA modules and user forms
-''
-Sub Replace_Module(modName As String, filePath As String)
+    ' Ensure destination folder exists
+    If Dir(extractTo, vbDirectory) = "" Then MkDir extractTo
 
-    If MsgBox("This will update VBA modules. Continue?", vbYesNo + vbWarning) = vbNo Then Exit Sub
-    
-        ' Backup first
-        Call Backup_Module(modName)
-    
-        ' Remove existing module
-        On Error Resume Next
-        ActiveWorkbook.VBProject.VBComponents.Remove _
-            ActiveWorkbook.VBProject.VBComponents(modName)
-        On Error GoTo 0
-    
-        ' Import new module
-        ActiveWorkbook.VBProject.VBComponents.Import filePath
-        
-End Sub
+    ' PowerShell unzip command
+    command = "powershell -command ""Expand-Archive -Path '" & zipPath & "' -DestinationPath '" & extractTo & "' -Force"""
 
-
-''
-'' Backup modules in case something breaks so we can instantly roll back the changes
-''
-Sub Backup_Module(modName As String)
-
-    Dim backupPath As String
-    
-    backupPath = "C:\OSARC\VBA_Backup\" & modName & ".bas"
-    
-    On Error Resume Next
-    ActiveWorkbook.VBProject.VBComponents(modName).Export backupPath
-    On Error GoTo 0
+    ' ? THIS IS THE FIX (wait for completion)
+    Set wsh = CreateObject("WScript.Shell")
+    wsh.Run command, 0, True   ' True = wait until finished
 
 End Sub
+
