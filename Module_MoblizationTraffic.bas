@@ -122,7 +122,7 @@ Range("A52").Select
             .PatternTintAndShade = 0
         End With
         ActiveCell.Offset(0, 1).Range("A1").Value = ActiveCell.Value
-        ActiveCell.Value = ActiveCell.Offset(0, 1).Range("A1").Value - ActiveCell.Offset(0, 60).Range("A1").Value
+        ActiveCell.Value = ActiveCell.Offset(0, 1).Range("A1").Value - ActiveCell.Offset(0, 59).Range("A1").Value
     ElseIf Not ws.Cells.Find("S-200-A", SearchOrder:=xlByRows, SearchDirection:=xlNext) Is Nothing Then
     Range("A52").Select
     Cells.Find(What:="S-200-A", After:=ActiveCell, LookIn:=xlValues _
