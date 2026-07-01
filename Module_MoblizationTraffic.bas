@@ -144,7 +144,7 @@ Range("A52").Select
             .PatternTintAndShade = 0
         End With
         ActiveCell.Offset(0, 1).Range("A1").Value = ActiveCell.Value
-        ActiveCell.Value = ActiveCell.Offset(0, 1).Range("A1").Value - ActiveCell.Offset(0, 60).Range("A1").Value
+        ActiveCell.Value = ActiveCell.Offset(0, 1).Range("A1").Value - ActiveCell.Offset(0, 59).Range("A1").Value
         Else
         Range("A52").Select
     End If
