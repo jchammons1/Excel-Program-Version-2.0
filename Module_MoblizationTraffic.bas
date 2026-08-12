@@ -49,7 +49,7 @@ Range("A52").Select
                 ActiveCell.Offset(0, 1).Select
                 If ActiveCell.Value >= 1 Then
                     ActiveCell.Value = 1
-                    ActiveCell.Offset(0, -1).Value = Round((1 - ActiveCell.Offset(0, 59).Range("A1").Value), 3)
+                    ActiveCell.Offset(0, -1).Value = Round((1 - ActiveCell.Offset(0, 58).Range("A1").Value), 3)
                 ElseIf ActiveCell.Offset(0, -1).Value < 0 Then
                     ActiveCell.Offset(0, -1).Value = 0
                     ActiveCell.Value = ActiveCell.Offset(0, 58).Range("A1").Value
