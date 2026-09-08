@@ -244,17 +244,17 @@ Sub Calculate_CostQuantity()
             Cells(row, column + 21).Value = EmulsionType And Cells(row, column + 10).Value = "A3" Then
                 Select Case EmulsionType
                     Case "SS-1"
-                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-8]-RC[-18])/RC[-18])>=0.05,((RC[-8]-RC[-18])*1.0*RC[-41]),0),0)"
+                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-8]-RC[-18])/RC[-18])>=0.05,IF(AND(RC[-39]=""GAL"",OR(RC[-34]=""A2"",RC[-34]=""A3""),RC[-23]=""SS-1""),(RC[-8]-RC[-18])*RC[-41],IF(AND(RC[-24]>0, RC[-23]=""SS-1"", RC[-39]=""SY""),(RC[-8]-RC[-18])*RC[-24]*RC[-41],0)),0),0)"
                     Case "CRS-2"
-                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-7]-RC[-17])/RC[-17])>=0.05,((RC[-7]-RC[-17])*1.0*RC[-41]),0),0)"
+                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-7]-RC[-17])/RC[-17])>=0.05,IF(AND(RC[-39]=""GAL"",OR(RC[-34]=""A2"",RC[-34]=""A3""),RC[-23]=""CRS-2""),(RC[-7]-RC[-17])*RC[-41],IF(AND(RC[-24]>0, RC[-23]=""CRS-2"", RC[-39]=""SY""),(RC[-7]-RC[-17])*RC[-24]*RC[-41],0)),0),0)"
                     Case "CRS-2P"
-                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-6]-RC[-16])/RC[-16])>=0.05,((RC[-6]-RC[-16])*1.0*RC[-41]),0),0)"
+                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-6]-RC[-16])/RC[-16])>=0.05,IF(AND(RC[-39]=""GAL"",OR(RC[-34]=""A2"",RC[-34]=""A3""),RC[-23]=""CRS-2P""),(RC[-6]-RC[-16])*RC[-41],IF(AND(RC[-24]>0, RC[-23]=""CRS-2P"", RC[-39]=""SY""),(RC[-6]-RC[-16])*RC[-24]*RC[-41],0)),0),0)"
                     Case "EA-1"
-                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-5]-RC[-15])/RC[-15])>=0.05,((RC[-5]-RC[-15])*1.0*RC[-41]),0),0)"
+                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-5]-RC[-15])/RC[-15])>=0.05,IF(AND(RC[-39]=""GAL"",OR(RC[-34]=""A2"",RC[-34]=""A3""),RC[-23]=""EA-1""),(RC[-5]-RC[-15])*RC[-41],IF(AND(RC[-24]>0, RC[-23]=""EA-1"", RC[-39]=""SY""),(RC[-5]-RC[-15])*RC[-24]*RC[-41],0)),0),0)"
                     Case "CSS-1_UN"
-                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-4]-RC[-14])/RC[-14])>=0.05,((RC[-4]-RC[-14])*1.0*RC[-41]),0),0)"
+                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-4]-RC[-14])/RC[-14])>=0.05,IF(AND(RC[-39]=""GAL"",OR(RC[-34]=""A2"",RC[-34]=""A3""),RC[-23]=""CSS-1_UN""),(RC[-4]-RC[-14])*RC[-41],IF(AND(RC[-24]>0, RC[-23]=""CSS-1_UN"", RC[-39]=""SY""),(RC[-4]-RC[-14])*RC[-24]*RC[-41],0)),0),0)"
                     Case "CSS-1"
-                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-3]-RC[-13])/RC[-13])>=0.05,((RC[-3]-RC[-13])*1.0*RC[-41]),0),0)"
+                        Cells(row, column + 44).Value = "=IFERROR(IF(ABS((RC[-3]-RC[-13])/RC[-13])>=0.05,IF(AND(RC[-39]=""GAL"",OR(RC[-34]=""A2"",RC[-34]=""A3""),RC[-23]=""CSS-1""),(RC[-3]-RC[-13])*RC[-41],IF(AND(RC[-24]>0, RC[-23]=""CSS-1"", RC[-39]=""SY""),(RC[-7]-RC[-13])*RC[-24]*RC[-41],0)),0),0)"
                 End Select
             End If
 
