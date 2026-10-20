@@ -271,7 +271,7 @@ Sub Calculate_EngPayInv()
             ActiveSheet.Range("B27").Value = "CONSTRUCTION @ 100%"
             ActiveSheet.Range("C27").Value = Range("G11")                   ' Changing cells to final here
             ActiveSheet.Range("D27").Value = "  12.0% of the FINAL remaining = "
-            Range("G27").Value = "=(R27C3*Data_Validation!R[-21]C[7])-(SUM(R[-4]C:R[-1]C))"
+            Range("G27").Value = "=(R27C3*R6C6/100)-(SUM(R[-4]C:R[-1]C))"
     End If
 
 Call CAD_DataEngineerPayment
