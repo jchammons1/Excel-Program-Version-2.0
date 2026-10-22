@@ -10,11 +10,45 @@ Sub DownloadWAVFile()
         Dim http As Object
         Dim fileUrl As String
         
+        
         Dim fileStream As Object
     
         ' Initialize variables
-        fileUrl = "https://www.osarc.ms.gov/SuperMarioBros30sec.wav"
+        fileUrl = DATA_VALIDATION.Range("AB2").Value
         localFilePath = Environ("TEMP") & "\downloaded_file.wav"
+    
+        ' Create XMLHTTP object
+        Set http = CreateObject("MSXML2.XMLHTTP")
+        http.Open "GET", fileUrl, False
+        http.Send
+    
+        ' Create ADODB Stream object
+        Set fileStream = CreateObject("ADODB.Stream")
+        fileStream.Type = 1 ' Binary
+        fileStream.Open
+        fileStream.Write http.responseBody
+        fileStream.SaveToFile localFilePath, 2 ' Overwrite if file exists
+        fileStream.Close
+    
+        ' Clean up
+        Set http = Nothing
+        Set fileStream = Nothing
+    
+        Call PlaySoundFile
+    End If
+End Sub
+
+
+Sub DownloadWAVFile_ProcessComplete()
+    If DATA_VALIDATION.Range("AA2") = "On" Then
+        Dim http As Object
+        Dim fileUrl As String
+        
+        Dim fileStream As Object
+    
+        ' Initialize variables
+        fileUrl = DATA_VALIDATION.Range("AC2").Value
+        localFilePath = Environ("TEMP") & "\downloaded_file_2.wav"
     
         ' Create XMLHTTP object
         Set http = CreateObject("MSXML2.XMLHTTP")
